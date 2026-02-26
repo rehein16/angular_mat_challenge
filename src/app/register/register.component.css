@@ -1,0 +1,743 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:host {
+  --primary: #7c3aed;
+  --primary-light: #a78bfa;
+  --primary-dark: #5b21b6;
+  --accent: #06b6d4;
+  --accent-light: #67e8f9;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --bg-dark: #0f0e17;
+  --bg-card: #1a1828;
+  --bg-card2: #201e2f;
+  --bg-input: #2a2840;
+  --text-primary: #ffffff;
+  --text-secondary: #c8c5e8;
+  --text-muted: #9896b8;
+  --border: rgba(124, 58, 237, 0.2);
+  --border-hover: rgba(124, 58, 237, 0.5);
+  --glow: 0 0 30px rgba(124, 58, 237, 0.15);
+  --glow-strong: 0 0 60px rgba(124, 58, 237, 0.3);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* ===== PAGE WRAPPER ===== */
+.page-wrapper {
+  min-height: 100vh;
+  background: var(--bg-dark);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(124, 58, 237, 0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 110%, rgba(6, 182, 212, 0.15) 0%, transparent 60%);
+  padding: 40px 16px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-wrapper::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(124,58,237,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124,58,237,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== HEADER ===== */
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(124, 58, 237, 0.15);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary-light);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  animation: fadeInDown 0.6s ease;
+}
+
+.brand-badge mat-icon {
+  font-size: 14px;
+  height: 14px;
+  width: 14px;
+}
+
+.page-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 12px;
+  line-height: 1.1;
+  animation: fadeInDown 0.7s ease;
+}
+
+.page-title span {
+  background: linear-gradient(135deg, var(--primary-light), var(--accent-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.page-subtitle {
+  color: #b8b5d8;
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 0;
+  animation: fadeInDown 0.8s ease;
+}
+
+/* ===== STEPPER PROGRESS ===== */
+.progress-steps {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 1;
+  animation: fadeIn 0.9s ease;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-card2);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.step-item.active .step-circle {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  border-color: var(--primary);
+  color: white;
+  box-shadow: 0 0 20px rgba(124,58,237,0.4);
+}
+
+.step-item.done .step-circle {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+}
+
+.step-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: #9896b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.step-item.active .step-label {
+  color: var(--primary-light);
+}
+
+.step-connector {
+  width: 60px;
+  height: 2px;
+  background: var(--border);
+  margin: 0 4px;
+  margin-bottom: 22px;
+  position: relative;
+}
+
+/* ===== FORM CONTAINER ===== */
+.form-container {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== CARDS ===== */
+.register-card,
+.result-card {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 20px !important;
+  box-shadow: var(--glow), 0 24px 48px rgba(0,0,0,0.4) !important;
+  overflow: visible !important;
+  animation: slideUp 0.5s ease;
+  color: var(--text-primary) !important;
+}
+
+.result-card {
+  border-color: rgba(16, 185, 129, 0.3) !important;
+  box-shadow: 0 0 30px rgba(16,185,129,0.1), 0 24px 48px rgba(0,0,0,0.4) !important;
+  animation: slideUp 0.4s ease, glowPulse 2s ease-in-out infinite alternate;
+}
+
+/* ===== CARD HEADER ===== */
+::ng-deep .register-card .mat-mdc-card-header {
+  padding: 28px 32px 0 !important;
+}
+
+::ng-deep .register-card .mat-mdc-card-content {
+  padding: 16px 32px 32px !important;
+}
+
+::ng-deep .result-card .mat-mdc-card-header {
+  padding: 24px 32px 0 !important;
+}
+
+::ng-deep .result-card .mat-mdc-card-content {
+  padding: 16px 32px 28px !important;
+}
+
+mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: var(--text-primary) !important;
+}
+
+mat-card-title mat-icon {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 28px;
+  height: 28px;
+  width: 28px;
+}
+
+mat-card-subtitle {
+  color: #b8b5d8 !important;
+  font-size: 0.875rem !important;
+  margin-top: 6px !important;
+}
+
+/* ===== FORM LAYOUT ===== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 20px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+/* ===== SECTION HEADERS ===== */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0 4px;
+}
+
+.section-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(124,58,237,0.2), rgba(6,182,212,0.2));
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.section-icon-wrap mat-icon {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+  color: var(--primary-light);
+}
+
+.section-info h3 {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.section-info p {
+  margin: 0;
+  font-size: 12px;
+  color: #b0aed0;
+}
+
+/* ===== MATERIAL OVERRIDES (Dark Theme) ===== */
+::ng-deep .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+  background-color: var(--bg-input) !important;
+  border-radius: 12px !important;
+}
+
+::ng-deep .mat-mdc-form-field .mdc-line-ripple::before,
+::ng-deep .mat-mdc-form-field .mdc-line-ripple::after {
+  border-bottom-color: var(--border) !important;
+}
+
+::ng-deep .mat-mdc-form-field.mat-focused .mdc-line-ripple::after {
+  border-bottom-color: var(--primary) !important;
+}
+
+::ng-deep .mat-mdc-form-field-label,
+::ng-deep .mat-mdc-floating-label {
+  color: #c8c5e8 !important;
+}
+
+::ng-deep .mat-mdc-form-field.mat-focused .mat-mdc-floating-label {
+  color: var(--primary-light) !important;
+}
+
+::ng-deep .mat-mdc-input-element {
+  color: #ffffff !important;
+  caret-color: var(--primary-light) !important;
+}
+
+::ng-deep .mat-mdc-select-value-text {
+  color: #ffffff !important;
+}
+
+::ng-deep .mat-mdc-select-arrow {
+  color: #c8c5e8 !important;
+}
+
+::ng-deep .mat-mdc-form-field .mat-mdc-form-field-icon-suffix mat-icon,
+::ng-deep .mat-mdc-form-field .mat-mdc-form-field-icon-prefix mat-icon {
+  color: #9896b8 !important;
+}
+
+/* ===== GENDER SECTION ===== */
+.gender-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gender-label {
+  color: #c8c5e8;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.gender-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.gender-option {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.gender-option:hover {
+  border-color: var(--border-hover);
+  background: rgba(124,58,237,0.08);
+}
+
+::ng-deep .mat-mdc-radio-button .mdc-radio__outer-circle {
+  border-color: var(--border) !important;
+}
+
+::ng-deep .mat-mdc-radio-button.mat-mdc-radio-checked .mdc-radio__outer-circle {
+  border-color: var(--primary) !important;
+}
+
+::ng-deep .mat-mdc-radio-button.mat-mdc-radio-checked .mdc-radio__inner-circle {
+  border-color: var(--primary) !important;
+  background-color: var(--primary) !important;
+}
+
+::ng-deep .mat-mdc-radio-button .mdc-label {
+  color: #d0cde8 !important;
+  font-size: 14px;
+}
+
+/* ===== SLIDER ===== */
+.slider-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.slider-label {
+  color: #c8c5e8;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.skill-badge {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.3px;
+}
+
+mat-slider {
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-slider .mdc-slider__track--inactive {
+  background-color: var(--border) !important;
+}
+
+::ng-deep .mat-mdc-slider .mdc-slider__track--active_fill {
+  background: linear-gradient(90deg, var(--primary), var(--accent)) !important;
+}
+
+::ng-deep .mat-mdc-slider .mdc-slider__thumb-knob {
+  background-color: white !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 12px rgba(124,58,237,0.5) !important;
+}
+
+.slider-hints {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #9896b8;
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progress-pct {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary-light);
+}
+
+::ng-deep .mat-mdc-progress-bar .mdc-linear-progress__buffer-bar {
+  background-color: var(--bg-input) !important;
+}
+
+::ng-deep .mat-mdc-progress-bar .mdc-linear-progress__bar-inner {
+  border-color: var(--primary) !important;
+}
+
+::ng-deep .mat-mdc-progress-bar {
+  border-radius: 100px !important;
+  height: 8px !important;
+}
+
+/* ===== CHIPS ===== */
+.chips-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+::ng-deep .mat-mdc-chip-option {
+  background: var(--bg-input) !important;
+  border: 1px solid var(--border) !important;
+  color: #e0deff !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+}
+
+::ng-deep .mat-mdc-chip-option .mdc-evolution-chip__text-label {
+  color: #e0deff !important;
+}
+
+::ng-deep .mat-mdc-chip-option:hover {
+  border-color: var(--border-hover) !important;
+  color: #ffffff !important;
+  background: rgba(124,58,237,0.12) !important;
+}
+
+::ng-deep .mat-mdc-chip-option:hover .mdc-evolution-chip__text-label {
+  color: #ffffff !important;
+}
+
+::ng-deep .mat-mdc-chip-option.mat-mdc-chip-selected {
+  background: linear-gradient(135deg, rgba(124,58,237,0.35), rgba(6,182,212,0.25)) !important;
+  border-color: var(--primary) !important;
+  color: #ffffff !important;
+}
+
+::ng-deep .mat-mdc-chip-option.mat-mdc-chip-selected .mdc-evolution-chip__text-label {
+  color: #ffffff !important;
+}
+
+.chips-hint {
+  font-size: 12px;
+  color: var(--accent);
+  margin: 0;
+  font-weight: 500;
+}
+
+/* ===== CHECKBOX ===== */
+.checkbox-section {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+::ng-deep .mat-mdc-checkbox .mdc-checkbox__background {
+  border-color: var(--border) !important;
+}
+
+::ng-deep .mat-mdc-checkbox.mat-mdc-checkbox-checked .mdc-checkbox__background {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+
+::ng-deep .mat-mdc-checkbox .mdc-label {
+  color: #d0cde8 !important;
+  font-size: 13px;
+}
+
+/* ===== SUBMIT BUTTONS ===== */
+.submit-section {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.submit-btn {
+  flex: 1;
+  height: 52px !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+  border-radius: 14px !important;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
+  color: white !important;
+  box-shadow: 0 8px 24px rgba(124,58,237,0.35) !important;
+  transition: all 0.3s ease !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 32px rgba(124,58,237,0.5) !important;
+}
+
+.reset-btn {
+  height: 52px !important;
+  border-radius: 14px !important;
+  border-color: var(--border) !important;
+  color: var(--text-secondary) !important;
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  transition: all 0.2s ease !important;
+}
+
+.reset-btn:hover {
+  border-color: var(--border-hover) !important;
+  color: var(--text-primary) !important;
+}
+
+/* ===== RESULT CARD ===== */
+.result-header-icon {
+  font-size: 32px !important;
+  height: 32px !important;
+  width: 32px !important;
+  color: var(--success) !important;
+}
+
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.result-table tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
+}
+
+.result-table tr:last-child {
+  border-bottom: none;
+}
+
+.result-table tr:hover {
+  background: rgba(124,58,237,0.05);
+}
+
+.result-table td {
+  padding: 12px 8px;
+  font-size: 14px;
+}
+
+.result-table td:first-child {
+  color: #9896b8;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  width: 160px;
+}
+
+.result-table td:last-child {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* ===== DIVIDER ===== */
+::ng-deep .mat-divider {
+  border-top-color: var(--border) !important;
+}
+
+/* ===== ERROR MESSAGES ===== */
+::ng-deep .mat-mdc-form-field-error {
+  color: var(--error) !important;
+  font-size: 11px !important;
+}
+
+::ng-deep .mat-mdc-form-field-hint {
+  color: #a8a5c5 !important;
+}
+
+/* ===== SNACKBAR ===== */
+::ng-deep .success-snackbar {
+  background: linear-gradient(135deg, var(--primary), var(--accent)) !important;
+  color: white !important;
+  border-radius: 12px !important;
+}
+
+::ng-deep .error-snackbar {
+  background: var(--error) !important;
+  color: white !important;
+  border-radius: 12px !important;
+}
+
+/* ===== AUTOCOMPLETE PANEL ===== */
+::ng-deep .mat-mdc-autocomplete-panel {
+  background: var(--bg-card2) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+}
+
+::ng-deep .mat-mdc-option {
+  color: #e8e6ff !important;
+}
+
+::ng-deep .mat-mdc-option:hover {
+  background: rgba(124,58,237,0.1) !important;
+}
+
+/* ===== SELECT PANEL ===== */
+::ng-deep .mat-mdc-select-panel {
+  background: var(--bg-card2) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+}
+
+/* ===== DATEPICKER ===== */
+::ng-deep .mat-datepicker-content {
+  background: var(--bg-card2) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 16px !important;
+  color: var(--text-primary) !important;
+}
+
+::ng-deep .mat-calendar-body-cell-content {
+  color: #e8e6ff !important;
+}
+
+::ng-deep .mat-calendar-body-selected {
+  background-color: var(--primary) !important;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glowPulse {
+  from { box-shadow: 0 0 20px rgba(16,185,129,0.1), 0 24px 48px rgba(0,0,0,0.4); }
+  to { box-shadow: 0 0 40px rgba(16,185,129,0.25), 0 24px 48px rgba(0,0,0,0.4); }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .page-title { font-size: 2rem; }
+  .gender-group { grid-template-columns: 1fr; }
+  .progress-steps { gap: 0; }
+  .step-connector { width: 30px; }
+  ::ng-deep .register-card .mat-mdc-card-content { padding: 16px 20px 24px !important; }
+}

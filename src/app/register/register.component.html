@@ -1,0 +1,269 @@
+<div class="page-wrapper">
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="brand-badge">
+      <mat-icon>auto_awesome</mat-icon>
+      Angular Material Form
+    </div>
+    <h1 class="page-title">Create Your <span>Account</span></h1>
+    <p class="page-subtitle">Join us today — fill in the details below to get started</p>
+  </div>
+
+  <!-- Step Indicators -->
+  <div class="progress-steps">
+    <div class="step-item active">
+      <div class="step-circle">1</div>
+      <span class="step-label">Personal</span>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-item active">
+      <div class="step-circle">2</div>
+      <span class="step-label">Location</span>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-item active">
+      <div class="step-circle">3</div>
+      <span class="step-label">Skills</span>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step-item" [class.active]="submitted && formData.valid" [class.done]="submitted && formData.valid">
+      <div class="step-circle">
+        <mat-icon *ngIf="submitted && formData.valid" style="font-size:16px;height:16px;width:16px;">check</mat-icon>
+        <span *ngIf="!(submitted && formData.valid)">4</span>
+      </div>
+      <span class="step-label">Done</span>
+    </div>
+  </div>
+
+  <div class="form-container">
+    <mat-card class="register-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>person_add</mat-icon>
+          Registration Form
+        </mat-card-title>
+        <mat-card-subtitle>Please fill in all required fields marked with *</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form [formGroup]="formData" (ngSubmit)="onClickSubmit(formData.value)">
+
+          <!-- ===== SECTION 1: Personal Info ===== -->
+          <div class="section-header">
+            <div class="section-icon-wrap"><mat-icon>person</mat-icon></div>
+            <div class="section-info">
+              <h3>Personal Information</h3>
+              <p>Tell us about yourself</p>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+
+          <!-- Username -->
+          <mat-form-field appearance="fill">
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="e.g. john_doe" formControlName="userName">
+            <mat-icon matSuffix>account_circle</mat-icon>
+            <mat-hint>Choose a unique display name</mat-hint>
+            <mat-error *ngIf="formData.controls['userName'].invalid && formData.controls['userName'].touched">
+              Username is required.
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Email -->
+          <mat-form-field appearance="fill">
+            <mat-label>Email Address</mat-label>
+            <input matInput type="email" placeholder="you@example.com" formControlName="email">
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="formData.controls['email'].invalid && formData.controls['email'].touched">
+              Please enter a valid email address.
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Password -->
+          <mat-form-field appearance="fill">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="hidePassword ? 'password' : 'text'" placeholder="Min. 8 characters" formControlName="password">
+            <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword"
+              [matTooltip]="hidePassword ? 'Show password' : 'Hide password'">
+              <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            <mat-hint>Use a mix of letters, numbers & symbols</mat-hint>
+            <mat-error *ngIf="formData.controls['password'].invalid && formData.controls['password'].touched">
+              Password must be at least 8 characters.
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Gender -->
+          <div class="gender-section">
+            <label class="gender-label">Gender *</label>
+            <mat-radio-group formControlName="gender" class="gender-group">
+              <div class="gender-option"><mat-radio-button value="male">Male</mat-radio-button></div>
+              <div class="gender-option"><mat-radio-button value="female">Female</mat-radio-button></div>
+              <div class="gender-option"><mat-radio-button value="nonbinary">Non-binary</mat-radio-button></div>
+              <div class="gender-option"><mat-radio-button value="preferNotToSay">Prefer not to say</mat-radio-button></div>
+            </mat-radio-group>
+            <mat-error *ngIf="formData.controls['gender'].invalid && submitted">
+              Please select a gender.
+            </mat-error>
+          </div>
+
+          <!-- Birth Date -->
+          <mat-form-field appearance="fill">
+            <mat-label>Date of Birth</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="birthDate" placeholder="MM/DD/YYYY">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="formData.controls['birthDate'].invalid && formData.controls['birthDate'].touched">
+              Please enter a valid birth date.
+            </mat-error>
+          </mat-form-field>
+
+          <!-- ===== SECTION 2: Location ===== -->
+          <div class="section-header">
+            <div class="section-icon-wrap"><mat-icon>location_on</mat-icon></div>
+            <div class="section-info">
+              <h3>Location</h3>
+              <p>Where are you based?</p>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+
+          <!-- Address -->
+          <mat-form-field appearance="fill">
+            <mat-label>Address</mat-label>
+            <input matInput placeholder="Start typing your address..." formControlName="address" [matAutocomplete]="auto">
+            <mat-icon matSuffix>home</mat-icon>
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredAddresses | async" [value]="option">
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+            <mat-error *ngIf="formData.controls['address'].invalid && formData.controls['address'].touched">
+              Address is required.
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Country -->
+          <mat-form-field appearance="fill">
+            <mat-label>Country</mat-label>
+            <mat-select formControlName="country">
+              <mat-option *ngFor="let c of countries" [value]="c">{{ c }}</mat-option>
+            </mat-select>
+            <mat-icon matSuffix>flag</mat-icon>
+            <mat-error *ngIf="formData.controls['country'].invalid && formData.controls['country'].touched">
+              Please select a country.
+            </mat-error>
+          </mat-form-field>
+
+          <!-- ===== SECTION 3: Skills & Interests ===== -->
+          <div class="section-header">
+            <div class="section-icon-wrap"><mat-icon>star</mat-icon></div>
+            <div class="section-info">
+              <h3>Skills & Interests</h3>
+              <p>Show us what you know</p>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+
+          <!-- Skill Slider -->
+          <div class="slider-section">
+            <div class="slider-header">
+              <label class="slider-label">Angular Skill Level</label>
+              <span class="skill-badge">
+                {{ formData.controls['angularSkillLevel'].value }}/10 — {{ getSkillLabel(formData.controls['angularSkillLevel'].value) }}
+              </span>
+            </div>
+            <mat-slider min="1" max="10" step="1" showTickMarks discrete>
+              <input matSliderThumb formControlName="angularSkillLevel">
+            </mat-slider>
+            <div class="slider-hints">
+              <span>Beginner (1)</span>
+              <span>Expert (10)</span>
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="progress-section">
+            <div class="progress-header">
+              <label class="slider-label">Skill Progress Visualization</label>
+              <span class="progress-pct">{{ formData.controls['angularSkillLevel'].value * 10 }}%</span>
+            </div>
+            <mat-progress-bar
+              mode="determinate"
+              [value]="formData.controls['angularSkillLevel'].value * 10"
+              color="primary">
+            </mat-progress-bar>
+          </div>
+
+          <!-- Interest Chips -->
+          <div class="chips-section">
+            <label class="slider-label">Tech Interests (select all that apply)</label>
+            <div class="chips-container">
+              <mat-chip-option
+                *ngFor="let interest of availableInterests"
+                [selected]="isInterestSelected(interest)"
+                (click)="toggleInterest(interest)"
+                color="primary">
+                {{ interest }}
+              </mat-chip-option>
+            </div>
+            <p class="chips-hint" *ngIf="selectedInterests.length > 0">
+              ✦ Selected: {{ selectedInterests.join(', ') }}
+            </p>
+          </div>
+
+          <!-- Terms Checkbox -->
+          <div class="checkbox-section">
+            <mat-checkbox formControlName="agreeTerms" color="primary">
+              I agree to the <strong>Terms & Conditions</strong> and <strong>Privacy Policy</strong>
+            </mat-checkbox>
+            <mat-error *ngIf="formData.controls['agreeTerms'].invalid && submitted">
+              You must agree to the terms to continue.
+            </mat-error>
+          </div>
+
+          <!-- Buttons -->
+          <div class="submit-section">
+            <button mat-raised-button class="submit-btn" type="submit"
+              [matTooltip]="'Submit your registration'">
+              <mat-icon>how_to_reg</mat-icon>
+              Register Now
+            </button>
+            <button mat-stroked-button class="reset-btn" type="reset" (click)="submitted = false"
+              [matTooltip]="'Clear all fields'">
+              <mat-icon>refresh</mat-icon>
+              Reset
+            </button>
+          </div>
+
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- ===== RESULT CARD ===== -->
+    <mat-card class="result-card" *ngIf="submitted && formData.valid">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon class="result-header-icon">check_circle</mat-icon>
+          Registration Successful!
+        </mat-card-title>
+        <mat-card-subtitle>Here's a summary of your submitted information</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-divider></mat-divider>
+        <table class="result-table">
+          <tr><td>Username</td><td>{{ userName }}</td></tr>
+          <tr><td>Email</td><td>{{ email }}</td></tr>
+          <tr><td>Gender</td><td>{{ gender }}</td></tr>
+          <tr><td>Birth Date</td><td>{{ birthDate | date:'longDate' }}</td></tr>
+          <tr><td>Address</td><td>{{ address }}</td></tr>
+          <tr><td>Country</td><td>{{ country }}</td></tr>
+          <tr><td>Skill Level</td><td>{{ angularSkillLevel }} / 10 — {{ getSkillLabel(angularSkillLevel) }}</td></tr>
+          <tr *ngIf="selectedInterests.length > 0"><td>Interests</td><td>{{ selectedInterests.join(', ') }}</td></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>
