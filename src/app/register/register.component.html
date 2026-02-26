@@ -1,4 +1,15 @@
-<div class="page-wrapper">
+<div class="page-wrapper" [class.light-mode]="!isDarkMode">
+
+  <!-- Theme Toggle -->
+  <div class="theme-toggle-bar">
+    <mat-icon>{{ isDarkMode ? 'dark_mode' : 'light_mode' }}</mat-icon>
+    <span>{{ isDarkMode ? 'Dark Mode' : 'Light Mode' }}</span>
+    <mat-slide-toggle
+      [checked]="isDarkMode"
+      (change)="toggleTheme()"
+      color="primary">
+    </mat-slide-toggle>
+  </div>
 
   <!-- Page Header -->
   <div class="page-header">
@@ -88,9 +99,18 @@
               [matTooltip]="hidePassword ? 'Show password' : 'Hide password'">
               <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
-            <mat-hint>Use a mix of letters, numbers & symbols</mat-hint>
-            <mat-error *ngIf="formData.controls['password'].invalid && formData.controls['password'].touched">
+            <mat-hint>Must start with a letter, alphanumeric only, min 8 characters</mat-hint>
+            <mat-error *ngIf="formData.controls['password'].errors?.['required'] && formData.controls['password'].touched">
+              Password is required.
+            </mat-error>
+            <mat-error *ngIf="formData.controls['password'].errors?.['minlength'] && formData.controls['password'].touched">
               Password must be at least 8 characters.
+            </mat-error>
+            <mat-error *ngIf="formData.controls['password'].errors?.['startsWithLetter'] && formData.controls['password'].touched">
+              Password must start with a letter.
+            </mat-error>
+            <mat-error *ngIf="formData.controls['password'].errors?.['alphanumericOnly'] && formData.controls['password'].touched">
+              Password must contain letters and numbers only (no special characters).
             </mat-error>
           </mat-form-field>
 
@@ -114,8 +134,12 @@
             <input matInput [matDatepicker]="picker" formControlName="birthDate" placeholder="MM/DD/YYYY">
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
-            <mat-error *ngIf="formData.controls['birthDate'].invalid && formData.controls['birthDate'].touched">
+            <mat-hint>Only users born in 2006 or earlier are accepted</mat-hint>
+            <mat-error *ngIf="formData.controls['birthDate'].errors?.['required'] && formData.controls['birthDate'].touched">
               Please enter a valid birth date.
+            </mat-error>
+            <mat-error *ngIf="formData.controls['birthDate'].errors?.['tooYoung'] && formData.controls['birthDate'].touched">
+              Sorry, you must be born in 2006 or earlier to register.
             </mat-error>
           </mat-form-field>
 

@@ -23,6 +23,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './register/register.component';
@@ -56,6 +57,7 @@ import { RegisterComponent } from './register/register.component';
     MatChipsModule,
     MatDividerModule,
     MatStepperModule,
+    MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

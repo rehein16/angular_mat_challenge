@@ -1,9 +1,33 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+
+// Custom validator: alphanumeric only, min 8 chars, must start with a letter
+export function alphanumericPasswordValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) return null;
+    const startsWithLetter = /^[a-zA-Z]/.test(value);
+    const alphanumericOnly = /^[a-zA-Z0-9]+$/.test(value);
+    if (!startsWithLetter) return { startsWithLetter: true };
+    if (!alphanumericOnly) return { alphanumericOnly: true };
+    return null;
+  };
+}
+
+// Custom validator: birth year must be 2006 or earlier
+export function birthDateValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const value = control.value;
+    if (!value) return null;
+    const birthYear = new Date(value).getFullYear();
+    if (birthYear > 2006) return { tooYoung: true };
+    return null;
+  };
+}
 
 export class Register {
   userName: string = '';
@@ -39,6 +63,7 @@ export class RegisterComponent implements OnInit {
   submitted = false;
   country: string = '';
   hidePassword = true;
+  isDarkMode = true; // default to dark
 
   // Autocomplete options
   addressOptions: string[] = [
@@ -66,9 +91,13 @@ export class RegisterComponent implements OnInit {
   formData: FormGroup = new FormGroup({
     userName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8),
+      alphanumericPasswordValidator()
+    ]),
     gender: new FormControl('', [Validators.required]),
-    birthDate: new FormControl(null, [Validators.required]),
+    birthDate: new FormControl(null, [Validators.required, birthDateValidator()]),
     address: new FormControl('', [Validators.required]),
     country: new FormControl('', [Validators.required]),
     angularSkillLevel: new FormControl(5),
@@ -82,6 +111,10 @@ export class RegisterComponent implements OnInit {
       startWith(''),
       map(value => this._filterAddresses(value || ''))
     );
+  }
+
+  toggleTheme(): void {
+    this.isDarkMode = !this.isDarkMode;
   }
 
   private _filterAddresses(value: string): string[] {
